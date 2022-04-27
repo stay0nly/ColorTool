@@ -44,3 +44,8 @@ input[type="text"] {
     background-color: #ece2bd;
     margin-bottom: 25px;
 }
+
+#newColorHex {
+    text-align: center;
+    padding-top: 10px;
+}
