@@ -4,6 +4,22 @@ const alteredColor = document.getElementById('alteredColor');
 const sliderText = document.getElementById('slidertext');
 const slider = document.getElementById('slider');
 const newColorHex = document.getElementById('newColorHex');
+const lightenText = document.getElementById('lightenText');
+const toggleBtn = document.getElementById('toggleBtn');
+const darkenText = document.getElementById('darkenText');
+
+toggleBtn.addEventListener('click', () => {
+    if(toggleBtn.classList.contains('toggled')) {
+        toggleBtn.classList.remove('toggled');
+        lightenText.classList.remove('unselected');
+        darkenText.classList.add('unselected');
+    } else {
+        toggleBtn.classList.add('toggled');
+        lightenText.classList.add('unselected');
+        darkenText.classList.remove('unselected');
+    }
+    reset();
+});
 
 hexInput.addEventListener('keyup', () => {
     const hex = hexInput.value;
@@ -11,6 +27,7 @@ hexInput.addEventListener('keyup', () => {
 
     const strippedHex = hex.replace('#', '');
     inputColor.style.backgroundColor = "#" + strippedHex;
+    reset();
 })
 
 
@@ -48,16 +65,6 @@ const convertRgbToHex = (r,g,b) => {
     return hex;
 }
 
-
-// function range() {
-//     const slidertext = document.getElementById('slidertext');
-//     const slider = document.getElementById('slider');
-//     slidertext.innerHTML = slider.value + "%";
-// }
-
-
-
-
 const alterColor = (hex, percentage) => {
     const {r, g, b} = convertHexToRgb(hex);
 
@@ -80,8 +87,20 @@ slider.addEventListener('input', () => {
     if(!isValidHex(hexInput.value)) return;
 
     sliderText.textContent = `${slider.value}%`;
+
+    const valueSwitch = 
+    toggleBtn.classList.contains('toggled') ? -slider.value : slider.value;
     
-    const alteredHex = alterColor(hexInput.value, slider.value);
+    const alteredHex = alterColor(hexInput.value, valueSwitch);
     alteredColor.style.backgroundColor = alteredHex;
     newColorHex.innerText = `${alteredHex}`;
-})
+});
+
+const reset = () => {
+    slider.value = 0;
+    sliderText.innerText = '0%';
+    alteredColor.style.backgroundColor = hexInput.value;
+    newColorHex.innerText = `${hexInput.value}`;
+}
+
+
